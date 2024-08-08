@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpClient();
    
 builder.Services.RegisterApplicationServices();
-builder.Services.RegisterPersistenceServices();
+builder.Services.RegisterPersistenceServices(builder.Configuration);
 
 var app = builder.Build();
 
