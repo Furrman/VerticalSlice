@@ -1,1 +1,9 @@
 @HostAddressRoot = https://localhost:7293
+
+GET {{HostAddressRoot}}/api/destinations?searchFor=a
+Accept: application/json
+
+###
+
+GET {{HostAddressRoot}}/api/destinations
+Accept: application/json
