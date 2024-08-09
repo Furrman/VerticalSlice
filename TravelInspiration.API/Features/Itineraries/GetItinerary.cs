@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TravelInspiration.API.Shared.Domain.Entities;
 using TravelInspiration.API.Shared.Persistence;
@@ -12,22 +13,42 @@ public static class GetItinerary
         app.MapGet("api/itineraries", async
             (string? searchFor,
                 ILoggerFactory loggerFactory,
-                IMapper mapper,
-                TravelInspirationDbContext dbContext,
+                IMediator mediator,
                 CancellationToken cancellationToken) =>
         {
             loggerFactory.CreateLogger("EndpointHandlers")
                 .LogInformation("GetItineraries feature called.");
 
-            var itineraries = await dbContext.Itineraries
-                .Where(i => 
-                    searchFor == null || i.Name.Contains(searchFor) ||
-                    (i.Description != null && i.Description.Contains(searchFor)))
-                .ToListAsync(cancellationToken);
-            var result = mapper.Map<IEnumerable<ItineraryDto>>(itineraries);
-
-            return Results.Ok(result);
+            return await mediator.Send(
+                new GetItineraryQuery(searchFor),
+                cancellationToken);
         });
+    }
+
+    public class GetItineraryQuery(string? searchFor) : IRequest<IResult>
+    {
+        public string? SearchFor { get; } = searchFor;
+    }
+
+    public class GetItineraryQueryHandler : IRequestHandler<GetItineraryQuery, IResult>
+    {
+        private readonly TravelInspirationDbContext _dbContext;
+        private readonly IMapper _mapper;
+
+        public GetItineraryQueryHandler(TravelInspirationDbContext dbContext, IMapper mapper)
+        {
+            _dbContext = dbContext;
+            _mapper = mapper;
+        }
+
+        public async Task<IResult> Handle(GetItineraryQuery request, CancellationToken cancellationToken)
+        {
+            var itineraries = await _dbContext.Itineraries
+                .Where(i => request.SearchFor == null || i.Name.Contains(request.SearchFor) ||
+                    (i.Description != null && i.Description.Contains(request.SearchFor)))
+                .ToListAsync(cancellationToken);
+            return Results.Ok(_mapper.Map<IEnumerable<ItineraryDto>>(itineraries));
+        }
     }
 
     public sealed class ItineraryDto
