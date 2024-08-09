@@ -1,6 +1,4 @@
-﻿using TravelInspiration.API.Shared.Slices;
-
-namespace TravelInspiration.API.Features.Stops;
+﻿namespace TravelInspiration.API.Shared.Slices;
 
 public static class EndpointRouteBuilderExtensions
 {

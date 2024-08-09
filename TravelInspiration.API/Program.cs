@@ -1,5 +1,5 @@
 using TravelInspiration.API;
-using TravelInspiration.API.Features.Stops;
+using TravelInspiration.API.Shared.Slices;
 
 var builder = WebApplication.CreateBuilder(args);
 
