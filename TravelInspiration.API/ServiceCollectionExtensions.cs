@@ -2,6 +2,7 @@
 using System.Reflection;
 using TravelInspiration.API.Shared.Networking;
 using TravelInspiration.API.Shared.Persistence;
+using TravelInspiration.API.Shared.Slices;
 
 namespace TravelInspiration.API;
 
@@ -9,7 +10,13 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection RegisterApplicationServices(this IServiceCollection services)
     {
+        // HttpClients
         services.AddScoped<IDestinationSearchApiClient, DestinationSearchApiClient>();
+
+        // Slices
+        services.RegisterSlices();
+
+        // Dependencies
         var currentAssembly = Assembly.GetExecutingAssembly();
         services.AddAutoMapper(currentAssembly);
         services.AddMediatR(cfg =>

@@ -1,12 +1,13 @@
 ﻿using TravelInspiration.API.Shared.Networking;
+using TravelInspiration.API.Shared.Slices;
 
 namespace TravelInspiration.API.Features.Destinations;
 
-public static class SearchDestinations
+public sealed class SearchDestinations : ISlice
 {
-    public static void AddEndpoint(IEndpointRouteBuilder app)
+    public void AddEndpoint(IEndpointRouteBuilder endpointRouteBuilder)
     {
-        app.MapGet("api/destinations", 
+        endpointRouteBuilder.MapGet("api/destinations", 
             async (string? searchFor,
                 ILoggerFactory loggerFactory,
                 IDestinationSearchApiClient destinationSearchApiClient,

@@ -1,6 +1,4 @@
 using TravelInspiration.API;
-using TravelInspiration.API.Features.Destinations;
-using TravelInspiration.API.Features.Itineraries;
 using TravelInspiration.API.Features.Stops;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,9 +23,6 @@ else
     app.UseExceptionHandler();
 }
 app.UseStatusCodePages();
-
-SearchDestinations.AddEndpoint(app);
-GetItinerary.AddEndpoint(app);
-GetStops.AddEndpoint(app);
+app.MapSliceEndpoints();
 
 app.Run();

@@ -3,14 +3,15 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TravelInspiration.API.Shared.Domain.Entities;
 using TravelInspiration.API.Shared.Persistence;
+using TravelInspiration.API.Shared.Slices;
 
 namespace TravelInspiration.API.Features.Itineraries;
 
-public static class GetItinerary
+public sealed class GetItinerary : ISlice
 {
-    public static void AddEndpoint(IEndpointRouteBuilder app)
+    public void AddEndpoint(IEndpointRouteBuilder endpointRouteBuilder)
     {
-        app.MapGet("api/itineraries", async
+        endpointRouteBuilder.MapGet("api/itineraries", async
             (string? searchFor,
                 ILoggerFactory loggerFactory,
                 IMediator mediator,
