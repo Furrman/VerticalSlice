@@ -42,6 +42,7 @@ public sealed class GetStops : ISlice
         {
             var itinerary = await _dbContext.Itineraries
                 .Include(i => i.Stops)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(i => i.Id == request.ItineraryId, cancellationToken);
 
             if (itinerary == null)

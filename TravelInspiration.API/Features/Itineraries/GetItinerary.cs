@@ -41,6 +41,7 @@ public sealed class GetItinerary : ISlice
         public async Task<IResult> Handle(GetItineraryQuery request, CancellationToken cancellationToken)
         {
             var itineraries = await _dbContext.Itineraries
+                .AsNoTracking()
                 .Where(i => request.SearchFor == null || i.Name.Contains(request.SearchFor) ||
                     (i.Description != null && i.Description.Contains(request.SearchFor)))
                 .ToListAsync(cancellationToken);
