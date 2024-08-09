@@ -2,7 +2,7 @@
 
 namespace TravelInspiration.API.Shared.Behaviours;
 
-public class LoggingBehaviour<TRequest>(ILogger<TRequest> logger) : IRequestPreProcessor<TRequest>
+public sealed class LoggingBehaviour<TRequest>(ILogger<TRequest> logger) : IRequestPreProcessor<TRequest>
     where TRequest : notnull
 {
     private readonly ILogger<TRequest> _logger = logger;
