@@ -33,3 +33,24 @@ Content-Type: application/json
   "Name": "A stop for testing",
   "ImageUri" : "https://localhost:7120/images/stopfortesting.jpg"
 }
+
+###
+
+POST {{HostAddressRoot}}/api/itineraries/1/stops
+Accept: application/json
+Content-Type: application/json
+
+{
+  "ImageUri" : "https://localhost:7120/images/stopfortesting.jpg"
+}
+
+###
+
+POST {{HostAddressRoot}}/api/itineraries/1/stops
+Accept: application/json
+Content-Type: application/json
+
+{
+  "Name": "A stop for testing",
+  "ImageUri" : "asfdsgrdtgxf"
+}
