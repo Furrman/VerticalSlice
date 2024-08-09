@@ -13,13 +13,9 @@ public sealed class GetItinerary : ISlice
     {
         endpointRouteBuilder.MapGet("api/itineraries", async
             (string? searchFor,
-                ILoggerFactory loggerFactory,
                 IMediator mediator,
                 CancellationToken cancellationToken) =>
         {
-            loggerFactory.CreateLogger("EndpointHandlers")
-                .LogInformation("GetItineraries feature called.");
-
             return await mediator.Send(
                 new GetItineraryQuery(searchFor),
                 cancellationToken);

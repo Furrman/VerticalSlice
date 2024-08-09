@@ -13,13 +13,9 @@ public sealed class GetStops : ISlice
     {
         endpointRouteBuilder.MapGet("api/itineraries/{itineraryId}/stops", async
             (int itineraryId,
-                ILoggerFactory loggerFactory,
                 IMediator mediator,
                 CancellationToken cancellationToken) =>
     {
-            loggerFactory.CreateLogger("EndpointHandlers")
-                .LogInformation("GetStops feature called.");
-
             return await mediator.Send(
                 new GetStopsQuery(itineraryId),
                 cancellationToken);
