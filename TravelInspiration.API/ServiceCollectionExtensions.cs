@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TravelInspiration.API.Shared.Networking;
-using TravelInspiration.API.Shared.Persistence.Migrations;
+using TravelInspiration.API.Shared.Persistence;
 
 namespace TravelInspiration.API;
 

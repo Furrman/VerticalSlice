@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TravelInspiration.API.Shared.Domain.Entities;
 
-namespace TravelInspiration.API.Shared.Persistence.Migrations;
+namespace TravelInspiration.API.Shared.Persistence;
 
 public sealed class TravelInspirationDbContext(
     DbContextOptions<TravelInspirationDbContext> options) : DbContext(options)

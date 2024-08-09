@@ -1,5 +1,6 @@
 using TravelInspiration.API;
-using TravelInspiration.API.Features.SearchDestinations;
+using TravelInspiration.API.Features.Destinations;
+using TravelInspiration.API.Features.Itineraries;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,5 +25,6 @@ else
 app.UseStatusCodePages();
 
 SearchDestinations.AddEndpoint(app);
+GetItinerary.AddEndpoint(app);
 
 app.Run();
