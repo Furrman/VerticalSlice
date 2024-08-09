@@ -22,12 +22,12 @@ public sealed class GetStops : ISlice
         });
     }
 
-    public class GetStopsQuery(int itineraryId) : IRequest<IResult>
+    public sealed class GetStopsQuery(int itineraryId) : IRequest<IResult>
     {
         public int ItineraryId { get; } = itineraryId;
     }
 
-    public class GetStopsQueryHandler : IRequestHandler<GetStopsQuery, IResult>
+    public sealed class GetStopsQueryHandler : IRequestHandler<GetStopsQuery, IResult>
     {
         private readonly TravelInspirationDbContext _dbContext;
         private readonly IMapper _mapper;
