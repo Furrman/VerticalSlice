@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 using TravelInspiration.API.Shared.Networking;
 using TravelInspiration.API.Shared.Persistence;
 
@@ -9,6 +10,8 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection RegisterApplicationServices(this IServiceCollection services)
     {
         services.AddScoped<IDestinationSearchApiClient, DestinationSearchApiClient>();
+        var currentAssembly = Assembly.GetExecutingAssembly();
+        services.AddAutoMapper(currentAssembly);
         return services;
     }
 

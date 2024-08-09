@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using TravelInspiration.API.Shared.Domain.Entities;
 using TravelInspiration.API.Shared.Persistence;
 
 namespace TravelInspiration.API.Features.Itineraries;
@@ -10,6 +12,7 @@ public static class GetItinerary
         app.MapGet("api/itineraries", async
             (string? searchFor,
                 ILoggerFactory loggerFactory,
+                IMapper mapper,
                 TravelInspirationDbContext dbContext,
                 CancellationToken cancellationToken) =>
         {
@@ -21,9 +24,9 @@ public static class GetItinerary
                     searchFor == null || i.Name.Contains(searchFor) ||
                     (i.Description != null && i.Description.Contains(searchFor)))
                 .ToListAsync(cancellationToken);
-            //var result = 
+            var result = mapper.Map<IEnumerable<ItineraryDto>>(itineraries);
 
-            return Results.Ok(itineraries);
+            return Results.Ok(result);
         });
     }
 
@@ -33,5 +36,13 @@ public static class GetItinerary
         public required string Name { get; set; }
         public string? Description { get; set; }
         public required string UserId { get; set; }
+    }
+
+    public sealed class ItineraryProfile : Profile
+    {
+        public ItineraryProfile()
+        {
+            CreateMap<Itinerary, ItineraryDto>();
+        }
     }
 }
