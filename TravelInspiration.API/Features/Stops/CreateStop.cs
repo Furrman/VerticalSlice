@@ -54,13 +54,13 @@ public sealed class CreateStop : ISlice
     {
         private readonly TravelInspirationDbContext _dbContext = dbContext;
 
-        public async Task<IResult> Handle(CreateStopCommand request, 
+        public async Task<IResult> Handle(CreateStopCommand request,
             CancellationToken cancellationToken)
         {
             var itinerary = await _dbContext.Itineraries
                 .Include(i => i.Stops)
-                .FirstOrDefaultAsync(i => 
-                    i.Id == request.ItineraryId, 
+                .FirstOrDefaultAsync(i =>
+                    i.Id == request.ItineraryId,
                     cancellationToken);
 
             if (itinerary == null)
@@ -74,7 +74,7 @@ public sealed class CreateStop : ISlice
             _dbContext.Stops.Add(stop);
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-            var result = mapper.Map<StopDto>(stop); 
+            var result = mapper.Map<StopDto>(stop);
 
             return Results.Created(
                 $"api/itineraries/{stop.ItineraryId}/stops/{stop.Id}",
@@ -106,14 +106,14 @@ public sealed class CreateStop : ISlice
         private readonly ILogger<SuggestStopCreatedEventHandler> _logger = logger;
         private readonly TravelInspirationDbContext _dbContext = dbContext;
 
-        public Task Handle(StopCreatedEvent notification, 
+        public Task Handle(StopCreatedEvent notification,
             CancellationToken cancellationToken)
         {
             _logger.LogInformation("Listener {listener} to domain event {domainEvent} triggered",
                 GetType().Name,
                 notification.GetType().Name);
 
-            var incomingStop = notification.Stop; 
+            var incomingStop = notification.Stop;
 
             // TODO Do AI magic here to get the suggested stop
 
@@ -124,6 +124,25 @@ public sealed class CreateStop : ISlice
                 Suggested = true
             };
             _dbContext.Stops.Add(stop);
+
+            return Task.CompletedTask;
+        }
+    }
+
+    public sealed class SuggestItineraryStopCreatedEventHandler(
+        ILogger<SuggestItineraryStopCreatedEventHandler> logger)
+        : INotificationHandler<StopCreatedEvent>
+    {
+        private readonly ILogger<SuggestItineraryStopCreatedEventHandler> _logger = logger;
+
+        public Task Handle(StopCreatedEvent notification, 
+            CancellationToken cancellationToken)
+        {
+            _logger.LogInformation("Listener {listener} to domain event {domainEvent} triggered",
+                GetType().Name,
+                notification.GetType().Name);
+
+            // TODO Do AI magic here to get the suggested stop
 
             return Task.CompletedTask;
         }
