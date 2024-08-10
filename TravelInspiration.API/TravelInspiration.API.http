@@ -54,3 +54,13 @@ Content-Type: application/json
   "Name": "A stop for testing",
   "ImageUri" : "asfdsgrdtgxf"
 }
+
+###
+
+PUT {{HostAddressRoot}}/api/itineraries/1/stops/1
+Accept: application/json
+Content-Type: application/json
+
+{
+  "Name": "An updated name",
+}

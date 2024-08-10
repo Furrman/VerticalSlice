@@ -48,7 +48,7 @@ public sealed class CreateStop : ISlice
         }
     }
 
-    public class CreateStopRequestHandler(
+    public sealed class CreateStopRequestHandler(
         IMapper mapper,
         TravelInspirationDbContext dbContext)
         : IRequestHandler<CreateStopCommand, IResult>
