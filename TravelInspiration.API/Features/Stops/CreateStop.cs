@@ -3,7 +3,6 @@ using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TravelInspiration.API.Shared.Domain.Entities;
-using TravelInspiration.API.Shared.Domain.Events;
 using TravelInspiration.API.Shared.Persistence;
 using TravelInspiration.API.Shared.Slices;
 
@@ -20,7 +19,7 @@ public sealed class CreateStop : ISlice
             {
                 createStopCommand.ItineraryId = itineraryId;
                 return await mediator.Send(createStopCommand, cancellationToken);
-            });
+            }).RequireAuthorization();
 
     public sealed class CreateStopCommand(int itineraryId,
         string Name,

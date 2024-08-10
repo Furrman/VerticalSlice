@@ -2,7 +2,6 @@
 using FluentValidation;
 using MediatR;
 using TravelInspiration.API.Shared.Domain.Entities;
-using TravelInspiration.API.Shared.Domain.Events;
 using TravelInspiration.API.Shared.Persistence;
 using TravelInspiration.API.Shared.Slices;
 
@@ -21,7 +20,7 @@ public sealed class UpdateStop : ISlice
                 updateStopCommand.ItineraryId = itineraryId;
                 updateStopCommand.StopId = stopId;
                 return await mediator.Send(updateStopCommand, cancellationToken);
-            });
+            }).RequireAuthorization();
 
     public sealed class  UpdateStopCommand : IRequest<IResult>
     {

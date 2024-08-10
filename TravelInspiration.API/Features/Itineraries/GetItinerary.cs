@@ -19,7 +19,7 @@ public sealed class GetItinerary : ISlice
             return await mediator.Send(
                 new GetItineraryQuery(searchFor),
                 cancellationToken);
-        });
+        }).RequireAuthorization();
     }
 
     public class GetItineraryQuery(string? searchFor) : IRequest<IResult>

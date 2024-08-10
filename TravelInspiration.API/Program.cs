@@ -6,7 +6,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container
 builder.Services.AddProblemDetails();
 builder.Services.AddHttpClient();
-   
+
+// Auth services
+builder.Services.AddAuthentication("Bearer")
+    .AddJwtBearer();
+builder.Services.AddAuthorization();
+
+// App services
 builder.Services.RegisterApplicationServices();
 builder.Services.RegisterPersistenceServices(builder.Configuration);
 
@@ -23,6 +29,10 @@ else
     app.UseExceptionHandler();
 }
 app.UseStatusCodePages();
+app.UseAuthentication();
+app.UseAuthorization();
+
+// Endpoints
 app.MapSliceEndpoints();
 
 app.Run();
