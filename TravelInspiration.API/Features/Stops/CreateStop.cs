@@ -30,6 +30,7 @@ public sealed class CreateStop : ISlice
         public string Name { get; set; } = Name;
         public string? ImageUri { get; set; } = imageUri;
         // Suggested property is not included in the command
+        // because it is set by default in entity configuration
     }
 
     public sealed class CreateStopCommandValidator : AbstractValidator<CreateStopCommand>
@@ -88,6 +89,7 @@ public sealed class CreateStop : ISlice
         public required string Name { get; set; }
         public Uri? ImageUri { get; set; }
         public int ItineraryId { get; set; }
+        public bool? Suggested { get; set; }
     }
 
     public sealed class StopMapProfileAfterCreation : Profile

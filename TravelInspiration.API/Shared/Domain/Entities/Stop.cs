@@ -1,4 +1,5 @@
-﻿using TravelInspiration.API.Shared.DomainEvents;
+﻿using TravelInspiration.API.Shared.Domain.Events;
+using TravelInspiration.API.Shared.DomainEvents;
 using static TravelInspiration.API.Features.Stops.CreateStop;
 
 namespace TravelInspiration.API.Shared.Domain.Entities;
@@ -18,5 +19,6 @@ public sealed class Stop(string name) : AuditableEntity, IHasDomainEvent
         ItineraryId = request.ItineraryId;
         ImageUri = request.ImageUri != null 
             ? new Uri(request.ImageUri) : null;
+        DomainEvents.Add(new StopCreatedEvent(this));
     }
 }
