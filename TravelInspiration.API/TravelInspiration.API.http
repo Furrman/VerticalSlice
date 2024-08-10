@@ -62,5 +62,5 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "Name": "An updated name",
+  "Name": "An updated name"
 }

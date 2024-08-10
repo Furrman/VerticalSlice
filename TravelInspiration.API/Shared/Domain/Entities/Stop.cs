@@ -1,6 +1,7 @@
 ﻿using TravelInspiration.API.Shared.Domain.Events;
 using TravelInspiration.API.Shared.DomainEvents;
 using static TravelInspiration.API.Features.Stops.CreateStop;
+using static TravelInspiration.API.Features.Stops.UpdateStop;
 
 namespace TravelInspiration.API.Shared.Domain.Entities;
 
@@ -20,5 +21,14 @@ public sealed class Stop(string name) : AuditableEntity, IHasDomainEvent
         ImageUri = request.ImageUri != null 
             ? new Uri(request.ImageUri) : null;
         DomainEvents.Add(new StopCreatedEvent(this));
+    }
+
+    public void HandleUpdateCommand(UpdateStopCommand request)
+    {
+        Name = request.Name;
+        ImageUri = request.ImageUri != null
+            ? new Uri(request.ImageUri) : null;
+        Suggested = request.Suggested;
+        DomainEvents.Add(new StopUpdatedEvent(this));
     }
 }

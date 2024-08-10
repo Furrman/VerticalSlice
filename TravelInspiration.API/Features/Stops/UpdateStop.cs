@@ -2,6 +2,7 @@
 using FluentValidation;
 using MediatR;
 using TravelInspiration.API.Shared.Domain.Entities;
+using TravelInspiration.API.Shared.Domain.Events;
 using TravelInspiration.API.Shared.Persistence;
 using TravelInspiration.API.Shared.Slices;
 
@@ -65,10 +66,7 @@ public sealed class UpdateStop : ISlice
                 return Results.NotFound();
             }
 
-            stop.Name = request.Name;
-            stop.ImageUri = request.ImageUri != null
-                ? new Uri(request.ImageUri) : null;
-            stop.Suggested = request.Suggested;
+            stop.HandleUpdateCommand(request);
 
             await _dbContext.SaveChangesAsync(cancellationToken);
 
@@ -90,6 +88,23 @@ public sealed class UpdateStop : ISlice
         public UpdateStopProfile()
         {
             CreateMap<Stop, StopDto>();
+        }
+    }
+
+    public sealed class SuggestStopUpdatedEventHandler(
+        ILogger<SuggestStopUpdatedEventHandler> logger)
+        : INotificationHandler<StopUpdatedEvent>
+    {
+        private readonly ILogger<SuggestStopUpdatedEventHandler> _logger = logger;
+
+        public Task Handle(StopUpdatedEvent notification, 
+            CancellationToken cancellationToken)
+        {
+            _logger.LogInformation("Listener {listener} to domain event {domainEvent} triggered",
+                GetType().Name,
+                notification.GetType().Name);
+
+            return Task.CompletedTask;
         }
     }
 }
