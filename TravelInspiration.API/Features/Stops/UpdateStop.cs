@@ -28,7 +28,7 @@ public sealed class UpdateStop : ISlice
         public int ItineraryId { get; set; }
         public int StopId { get; set; }
         public string Name { get; set; } = string.Empty;
-        public string ImageUri { get; set; }
+        public string? ImageUri { get; set; }
         public bool? Suggested { get; set; }
     }
 
@@ -88,23 +88,6 @@ public sealed class UpdateStop : ISlice
         public UpdateStopProfile()
         {
             CreateMap<Stop, StopDto>();
-        }
-    }
-
-    public sealed class SuggestStopUpdatedEventHandler(
-        ILogger<SuggestStopUpdatedEventHandler> logger)
-        : INotificationHandler<StopUpdatedEvent>
-    {
-        private readonly ILogger<SuggestStopUpdatedEventHandler> _logger = logger;
-
-        public Task Handle(StopUpdatedEvent notification, 
-            CancellationToken cancellationToken)
-        {
-            _logger.LogInformation("Listener {listener} to domain event {domainEvent} triggered",
-                GetType().Name,
-                notification.GetType().Name);
-
-            return Task.CompletedTask;
         }
     }
 }
