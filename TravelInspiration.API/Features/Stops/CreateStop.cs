@@ -3,6 +3,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TravelInspiration.API.Shared.Domain.Entities;
+using TravelInspiration.API.Shared.Domain.Events;
 using TravelInspiration.API.Shared.Persistence;
 using TravelInspiration.API.Shared.Slices;
 
@@ -28,6 +29,7 @@ public sealed class CreateStop : ISlice
         public int ItineraryId { get; set; } = itineraryId;
         public string Name { get; set; } = Name;
         public string? ImageUri { get; set; } = imageUri;
+        // Suggested property is not included in the command
     }
 
     public sealed class CreateStopCommandValidator : AbstractValidator<CreateStopCommand>
@@ -83,7 +85,7 @@ public sealed class CreateStop : ISlice
     public sealed class StopDto
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public required string Name { get; set; }
         public Uri? ImageUri { get; set; }
         public int ItineraryId { get; set; }
     }
@@ -93,6 +95,37 @@ public sealed class CreateStop : ISlice
         public StopMapProfileAfterCreation()
         {
             CreateMap<Stop, StopDto>();
+        }
+    }
+
+    public sealed class SuggestStopCreatedEventHandler(
+        ILogger<SuggestStopCreatedEventHandler> logger,
+        TravelInspirationDbContext dbContext)
+        : INotificationHandler<StopCreatedEvent>
+    {
+        private readonly ILogger<SuggestStopCreatedEventHandler> _logger = logger;
+        private readonly TravelInspirationDbContext _dbContext = dbContext;
+
+        public Task Handle(StopCreatedEvent notification, 
+            CancellationToken cancellationToken)
+        {
+            _logger.LogInformation("Listener {listener} to domain event {domainEvent} triggered",
+                GetType().Name,
+                notification.GetType().Name);
+
+            var incomingStop = notification.Stop; 
+
+            // TODO Do AI magic here to get the suggested stop
+
+            var stop = new Stop($"AI-ified - {incomingStop.Name}")
+            {
+                ImageUri = new Uri("https://herebeimages.com/aigeneratedimage.png"),
+                ItineraryId = incomingStop.ItineraryId,
+                Suggested = true
+            };
+            _dbContext.Stops.Add(stop);
+
+            return Task.CompletedTask;
         }
     }
 }
