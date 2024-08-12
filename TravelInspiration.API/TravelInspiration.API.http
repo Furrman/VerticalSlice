@@ -2,32 +2,38 @@
 
 GET {{HostAddressRoot}}/api/destinations?searchFor=a
 Accept: application/json
+Authorization: Bearer <Replace>
 
 ###
 
 GET {{HostAddressRoot}}/api/destinations
 Accept: application/json
+Authorization: Bearer <Replace>
 
 ###
 
 GET {{HostAddressRoot}}/api/itineraries?searchFor=Paris
 Accept: application/json
+Authorization: Bearer <Replace>
 
 ###
 
 GET {{HostAddressRoot}}/api/itineraries/1/stops
 Accept: application/json
+Authorization: Bearer <Replace>
 
 ###
 
 GET {{HostAddressRoot}}/api/itineraries/1111/stops
 Accept: application/json
+Authorization: Bearer <Replace>
 
 ###
 
 POST {{HostAddressRoot}}/api/itineraries/1/stops
 Accept: application/json
 Content-Type: application/json
+Authorization: Bearer <Replace>
 
 {
   "Name": "A stop for testing",
@@ -39,6 +45,7 @@ Content-Type: application/json
 POST {{HostAddressRoot}}/api/itineraries/1/stops
 Accept: application/json
 Content-Type: application/json
+Authorization: Bearer <Replace>
 
 {
   "ImageUri" : "https://localhost:7120/images/stopfortesting.jpg"
@@ -49,6 +56,7 @@ Content-Type: application/json
 POST {{HostAddressRoot}}/api/itineraries/1/stops
 Accept: application/json
 Content-Type: application/json
+Authorization: Bearer <Replace>
 
 {
   "Name": "A stop for testing",
@@ -60,6 +68,7 @@ Content-Type: application/json
 PUT {{HostAddressRoot}}/api/itineraries/1/stops/1
 Accept: application/json
 Content-Type: application/json
+Authorization: Bearer <Replace>
 
 {
   "Name": "An updated name"

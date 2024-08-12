@@ -15,3 +15,10 @@ This way, all the code related to a feature is in the same place, making it easi
 - Chains of Responsibility
 - CQRS
 
+## Authentication
+
+Generate token from cmd from TravelInspiration.Api folder:
+
+```dotnet user-jwts create --audience travelinspiration-api```
+
+Then you need to replace <Replace> with generated token in TravelInspiration.API.http file.
