@@ -10,6 +10,8 @@ namespace TravelInspiration.API.Features.Stops;
 
 public sealed class CreateStop : ISlice
 {
+    // "scope" : "write" (or "scope" : ["read", "write"] ...)
+
     public void AddEndpoint(IEndpointRouteBuilder endpointRouteBuilder) =>
         endpointRouteBuilder.MapPost("/api/itineraries/{itineraryId}/stops",
             async (int itineraryId,
@@ -19,7 +21,7 @@ public sealed class CreateStop : ISlice
             {
                 createStopCommand.ItineraryId = itineraryId;
                 return await mediator.Send(createStopCommand, cancellationToken);
-            }).RequireAuthorization();
+            }).RequireAuthorization(Shared.Security.AuthorizationPolicies.HasWriteActionPolicy);
 
     public sealed class CreateStopCommand(int itineraryId,
         string Name,

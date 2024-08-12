@@ -20,7 +20,7 @@ public sealed class UpdateStop : ISlice
                 updateStopCommand.ItineraryId = itineraryId;
                 updateStopCommand.StopId = stopId;
                 return await mediator.Send(updateStopCommand, cancellationToken);
-            }).RequireAuthorization();
+            }).RequireAuthorization(Shared.Security.AuthorizationPolicies.HasWriteActionPolicy);
 
     public sealed class  UpdateStopCommand : IRequest<IResult>
     {

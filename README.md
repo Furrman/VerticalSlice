@@ -26,3 +26,7 @@ Then you need to replace <Replace> with generated token in TravelInspiration.API
 To generate token for user with `get-itineraries` claim:
 
 ```dotnet user-jwts create --audience travelinspiration-api --claim "feature=get-itineraries"```
+
+To generate token for user with `write` scope:
+
+```dotnet user-jwts create --audience travelinspiration-api --scope write```
