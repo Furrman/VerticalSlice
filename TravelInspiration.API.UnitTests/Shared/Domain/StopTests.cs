@@ -36,17 +36,13 @@ public class StopTests : IDisposable
     public void WhenExecutingHandleCreateCommand_WithValidInput_OneStopCreatedEventMustBeAdded()
     {
         // Arrange
-        var stop = new Stop("StopForTesting");
-        var createStopCommand = new CreateStopCommand(42,
-            "A name",
-            null);
 
         // Act
-        stop.HandleCreateCommand(createStopCommand);
+        _stop.HandleCreateCommand(_createStopCommand);
 
         // Assert
-        Assert.Single(stop.DomainEvents);
-        Assert.IsType<StopCreatedEvent>(stop.DomainEvents[0]);
+        Assert.Single(_stop.DomainEvents);
+        Assert.IsType<StopCreatedEvent>(_stop.DomainEvents[0]);
     }
 
     public void Dispose()
