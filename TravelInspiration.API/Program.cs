@@ -37,3 +37,6 @@ app.UseAuthorization();
 app.MapSliceEndpoints();
 
 app.Run();
+
+// Partial class approach to make Program public (internal by default)
+public partial class Program();
