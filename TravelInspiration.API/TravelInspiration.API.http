@@ -1,39 +1,40 @@
 @HostAddressRoot = https://localhost:7293
+@BearerToken = <Replace>
 
 GET {{HostAddressRoot}}/api/destinations?searchFor=a
 Accept: application/json
-Authorization: Bearer <Replace>
+Authorization: Bearer {{BearerToken}}
 
 ###
 
 GET {{HostAddressRoot}}/api/destinations
 Accept: application/json
-Authorization: Bearer <Replace>
+Authorization: Bearer {{BearerToken}}
 
 ###
 
 GET {{HostAddressRoot}}/api/itineraries?searchFor=Paris
 Accept: application/json
-Authorization: Bearer <Replace>
+Authorization: Bearer {{BearerToken}}
 
 ###
 
 GET {{HostAddressRoot}}/api/itineraries/1/stops
 Accept: application/json
-Authorization: Bearer <Replace>
+Authorization: Bearer {{BearerToken}}
 
 ###
 
 GET {{HostAddressRoot}}/api/itineraries/1111/stops
 Accept: application/json
-Authorization: Bearer <Replace>
+Authorization: Bearer {{BearerToken}}
 
 ###
 
 POST {{HostAddressRoot}}/api/itineraries/1/stops
 Accept: application/json
 Content-Type: application/json
-Authorization: Bearer <Replace>
+Authorization: Bearer {{BearerToken}}
 
 {
   "Name": "A stop for testing",
@@ -45,7 +46,7 @@ Authorization: Bearer <Replace>
 POST {{HostAddressRoot}}/api/itineraries/1/stops
 Accept: application/json
 Content-Type: application/json
-Authorization: Bearer <Replace>
+Authorization: Bearer {{BearerToken}}
 
 {
   "ImageUri" : "https://localhost:7120/images/stopfortesting.jpg"
@@ -56,7 +57,7 @@ Authorization: Bearer <Replace>
 POST {{HostAddressRoot}}/api/itineraries/1/stops
 Accept: application/json
 Content-Type: application/json
-Authorization: Bearer <Replace>
+Authorization: Bearer {{BearerToken}}
 
 {
   "Name": "A stop for testing",
@@ -68,7 +69,7 @@ Authorization: Bearer <Replace>
 PUT {{HostAddressRoot}}/api/itineraries/1/stops/1
 Accept: application/json
 Content-Type: application/json
-Authorization: Bearer <Replace>
+Authorization: Bearer {{BearerToken}}
 
 {
   "Name": "An updated name"

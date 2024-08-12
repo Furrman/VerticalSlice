@@ -2,14 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using TravelInspiration.API.Shared.Domain.Entities;
 using TravelInspiration.API.Shared.DomainEvents;
+using TravelInspiration.API.Shared.Security;
 
 namespace TravelInspiration.API.Shared.Persistence;
 
 public sealed class TravelInspirationDbContext(
     DbContextOptions<TravelInspirationDbContext> options,
-    IPublisher publisher) : DbContext(options)
+    IPublisher publisher,
+    ICurrentUserService currentUserService) : DbContext(options)
 {
     private readonly IPublisher _publisher = publisher;
+    private readonly ICurrentUserService _currentUserService = currentUserService;
 
     public DbSet<Itinerary> Itineraries => Set<Itinerary>();
     public DbSet<Stop> Stops => Set<Stop>();
@@ -95,18 +98,18 @@ public sealed class TravelInspirationDbContext(
             if (entry.Entity is AuditableEntity entity)
             {
                 var now = DateTime.UtcNow;
-                var user = "DATASEED";
+                var dataSeedUser = "DATASEED";
                 switch (entry.State)
                 {
                     case EntityState.Added:
                         entity.CreatedOn = now;
-                        entity.CreatedBy = user;
+                        entity.CreatedBy = _currentUserService.UserId ?? dataSeedUser;
                         entity.LastModified = now;
-                        entity.LastModifiedBy = user;
+                        entity.LastModifiedBy = _currentUserService.UserId ?? dataSeedUser;
                         break;
                     case EntityState.Modified:
                         entity.LastModified = now;
-                        entity.LastModifiedBy = user;
+                        entity.LastModifiedBy = _currentUserService.UserId ?? dataSeedUser;
                         break;
                 }
             }
