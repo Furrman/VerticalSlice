@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using TravelInspiration.API.Shared.Domain.Entities;
 using TravelInspiration.API.Shared.Persistence;
@@ -9,6 +10,13 @@ namespace TravelInspiration.API.Features.Itineraries;
 
 public sealed class GetItinerary : ISlice
 {
+    // "feature": "get-itineraries" (or ["", ""] for mulpiple)
+    private AuthorizationPolicy _hasGetItineraryFeaturePolicy => 
+        new AuthorizationPolicyBuilder()
+            .RequireAuthenticatedUser()
+            .RequireClaim("feature", "get-itineraries")
+            .Build();
+
     public void AddEndpoint(IEndpointRouteBuilder endpointRouteBuilder)
     {
         endpointRouteBuilder.MapGet("api/itineraries", async
@@ -19,7 +27,7 @@ public sealed class GetItinerary : ISlice
             return await mediator.Send(
                 new GetItineraryQuery(searchFor),
                 cancellationToken);
-        }).RequireAuthorization();
+        }).RequireAuthorization(_hasGetItineraryFeaturePolicy);
     }
 
     public class GetItineraryQuery(string? searchFor) : IRequest<IResult>

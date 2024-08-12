@@ -22,3 +22,7 @@ Generate token from cmd from TravelInspiration.Api folder:
 ```dotnet user-jwts create --audience travelinspiration-api```
 
 Then you need to replace <Replace> with generated token in TravelInspiration.API.http file.
+
+To generate token for user with `get-itineraries` claim:
+
+```dotnet user-jwts create --audience travelinspiration-api --claim "feature=get-itineraries"```
